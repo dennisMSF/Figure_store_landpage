@@ -44,10 +44,16 @@ Evita modelos locales de 7B+ y Docker Desktop: no caben cómodamente.
 
 ## 2. Instalación (macOS Apple Silicon)
 
+### Clonar
+
+```bash
+git clone https://github.com/<tu-usuario>/anime-shop-agents.git
+cd anime-shop-agents
+```
+
 ### Opción A: automática
 
 ```bash
-cd anime-figures-agents
 bash scripts/setup_mac.sh      # o: make setup
 ```
 
@@ -67,7 +73,6 @@ ollama pull llama3.2:3b
 ollama pull nomic-embed-text
 
 # 4. Python 3.12 + todas las dependencias (crea .venv/ e instala desde uv.lock)
-cd anime-figures-agents
 uv python install 3.12
 uv sync --all-extras
 
@@ -96,7 +101,7 @@ VS Code con las extensiones *Python*, *Ruff* y *Jupyter*. Selecciona el intérpr
 ## 3. Estructura
 
 ```
-anime-figures-agents/
+anime-shop-agents/
 ├── pyproject.toml        # dependencias y configuración de herramientas
 ├── uv.lock               # versiones exactas (reproducible en cualquier Mac)
 ├── .env.example          # plantilla de configuración
