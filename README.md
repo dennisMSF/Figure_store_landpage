@@ -47,8 +47,8 @@ Evita modelos locales de 7B+ y Docker Desktop: no caben cómodamente.
 ### Clonar
 
 ```bash
-git clone https://github.com/<tu-usuario>/anime-shop-agents.git
-cd anime-shop-agents
+git clone https://github.com/dennisMSF/Figure_store_landpage.git
+cd Figure_store_landpage
 ```
 
 ### Opción A: automática
@@ -101,7 +101,7 @@ VS Code con las extensiones *Python*, *Ruff* y *Jupyter*. Selecciona el intérpr
 ## 3. Estructura
 
 ```
-anime-shop-agents/
+Figure_store_landpage/
 ├── pyproject.toml        # dependencias y configuración de herramientas
 ├── uv.lock               # versiones exactas (reproducible en cualquier Mac)
 ├── .env.example          # plantilla de configuración
