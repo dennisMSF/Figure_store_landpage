@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{{ store_name }}{% endblock %}</title>
+  <meta name="description" content="{% block description %}Figuras de anime 100% originales: Good Smile Company, Kotobukiya, Bandai y más.{% endblock %}">
+  <link rel="stylesheet" href="{{ url_for('static', path='css/styles.css') }}">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="/" class="logo">{{ store_name }}</a>
+      <nav aria-label="Principal">
+        <a href="/#catalogo">Catálogo</a>
+        <a href="/#originales">Originales</a>
+        <a href="/#contacto">Contacto</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer" id="contacto">
+    <div class="container">
+      <p>&copy; {{ store_name }}. Solo figuras originales con licencia oficial.</p>
+    </div>
+  </footer>
+</body>
+</html>

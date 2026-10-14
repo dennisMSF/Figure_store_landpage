@@ -1,16 +1,13 @@
-.PHONY: setup install check check-offline test lint format
+.PHONY: setup install dev test lint format
 
-setup:          ## Instalación completa en Mac M1 (brew, uv, ollama, modelos, deps)
+setup:    ## Instalación completa en Mac (brew, uv, Python, dependencias)
 	bash scripts/setup_mac.sh
 
-install:        ## Solo dependencias de Python
-	uv sync --all-extras
+install:  ## Solo dependencias de Python
+	uv sync
 
-check:          ## Verifica librerías, Ollama y Claude
-	uv run python scripts/check_env.py
-
-check-offline:  ## Verifica solo librerías (sin red)
-	uv run python scripts/check_env.py --offline
+dev:      ## Servidor de desarrollo con recarga automática en http://localhost:8000
+	uv run uvicorn figure_store.main:app --reload
 
 test:
 	uv run pytest -q

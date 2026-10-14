@@ -1,48 +1,21 @@
 [project]
-name = "anime-shop-agents"
+name = "figure-store"
 version = "0.1.0"
-description = "Sistema multi-agente que administra una tienda web de compra/venta de figuras de anime."
+description = "Tienda web de figuras de anime originales."
 readme = "README.md"
 requires-python = ">=3.12,<3.13"
 dependencies = [
-    # --- LLMs y agentes ---
-    "anthropic>=1.13",            # SDK oficial de Claude (modelo principal en la nube)
-    "langgraph>=1.2",             # Orquestación de agentes como grafo de estados
-    "ollama>=0.5",                # Cliente de modelos locales (LLM + embeddings) vía Metal en M1
-    "mcp>=1.10",                  # Model Context Protocol: exponer herramientas a los agentes
-    "tenacity>=9.0",              # Reintentos con backoff para llamadas externas
-    # --- Backend web ---
-    "fastapi>=0.115",
-    "uvicorn[standard]>=0.32",
-    "sqlmodel>=0.0.22",           # ORM (SQLAlchemy + Pydantic) sobre SQLite
-    "pydantic>=2.9",
+    "fastapi>=0.115",             # Framework web
+    "uvicorn[standard]>=0.32",    # Servidor ASGI
+    "jinja2>=3.1",                # Plantillas HTML renderizadas en el servidor
     "pydantic-settings>=2.6",     # Configuración tipada desde .env
-    # --- RAG / búsqueda semántica ---
-    "qdrant-client>=1.12",        # Vector DB en modo local (sin Docker)
-    # --- Datos y ML clásico ---
-    "pandas>=2.2",
-    "numpy>=2.1",
-    "duckdb>=1.1",                # Analítica SQL in-process
-    "scikit-learn>=1.5",          # Pricing / detección de anomalías / forecasting simple
-    # --- UI y utilidades ---
-    "streamlit>=1.40",            # Dashboard y chat de demo
-    "structlog>=24.4",            # Logs estructurados (JSON) para trazabilidad
-    "rich>=13.9",
 ]
-
-[project.optional-dependencies]
-# Observabilidad de LLMs (trazas, costos, latencias). Opcional: requiere cuenta Langfuse.
-observability = ["langfuse>=3.0"]
 
 [dependency-groups]
 dev = [
     "pytest>=8.3",
-    "pytest-asyncio>=0.24",
-    "httpx>=0.28",                # Requerido por fastapi.testclient
+    "httpx2>=1.0",              # Requerido por fastapi.testclient
     "ruff>=0.8",
-    "mypy>=1.13",
-    "pre-commit>=4.0",
-    "ipykernel>=6.29",            # Notebooks en VS Code / Jupyter
 ]
 
 [build-system]
@@ -50,7 +23,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/anime_shop"]
+packages = ["src/figure_store"]
 
 [tool.ruff]
 line-length = 100
@@ -59,11 +32,5 @@ target-version = "py312"
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP", "SIM"]
 
-[tool.mypy]
-python_version = "3.12"
-strict = true
-plugins = ["pydantic.mypy"]
-
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-asyncio_mode = "auto"
