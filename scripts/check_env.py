@@ -17,6 +17,9 @@ from anime_shop.config import get_settings
 
 console = Console()
 
+# (componente, estado, detalle). Estado None = omitido a propósito, no cuenta como falla.
+Check = tuple[str, bool | None, str]
+
 REQUIRED_MODULES = [
     "anthropic",
     "langgraph",
@@ -33,7 +36,7 @@ REQUIRED_MODULES = [
 ]
 
 
-def check_system() -> list[tuple[str, bool, str]]:
+def check_system() -> list[Check]:
     results = []
     py_ok = sys.version_info[:2] == (3, 12)
     results.append(("Python 3.12", py_ok, platform.python_version()))
@@ -44,7 +47,7 @@ def check_system() -> list[tuple[str, bool, str]]:
     return results
 
 
-def check_imports() -> list[tuple[str, bool, str]]:
+def check_imports() -> list[Check]:
     results = []
     for name in REQUIRED_MODULES:
         try:
@@ -55,7 +58,7 @@ def check_imports() -> list[tuple[str, bool, str]]:
     return results
 
 
-def check_ollama() -> list[tuple[str, bool, str]]:
+def check_ollama() -> list[Check]:
     import ollama
 
     settings = get_settings()
@@ -80,11 +83,13 @@ def check_ollama() -> list[tuple[str, bool, str]]:
     return results
 
 
-def check_claude() -> list[tuple[str, bool, str]]:
+def check_claude() -> list[Check]:
     import anthropic
 
     settings = get_settings()
     if settings.anthropic_api_key is None:
+        if settings.llm_provider == "ollama":
+            return [("Claude API", None, "omitido: LLM_PROVIDER=ollama y sin API key")]
         return [("Claude API", False, "ANTHROPIC_API_KEY vacía en .env")]
 
     client = anthropic.Anthropic(api_key=settings.anthropic_api_key.get_secret_value())
@@ -123,11 +128,12 @@ def main() -> int:
     table.add_column("Componente")
     table.add_column("Estado")
     table.add_column("Detalle")
+    labels = {True: "[green]OK[/]", False: "[red]FALLA[/]", None: "[yellow]OMITIDO[/]"}
     for name, ok, detail in results:
-        table.add_row(name, "[green]OK[/]" if ok else "[red]FALLA[/]", detail)
+        table.add_row(name, labels[ok], detail)
     console.print(table)
 
-    failed = [name for name, ok, _ in results if not ok]
+    failed = [name for name, ok, _ in results if ok is False]
     if failed:
         console.print(f"[red]{len(failed)} componente(s) con problemas.[/]")
         return 1

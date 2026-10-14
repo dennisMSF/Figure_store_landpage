@@ -4,7 +4,7 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Literal
 
-from pydantic import Field, SecretStr
+from pydantic import Field, SecretStr, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -44,6 +44,16 @@ class Settings(BaseSettings):
 
     log_level: Literal["DEBUG", "INFO", "WARNING", "ERROR"] = "INFO"
     environment: Literal["dev", "test", "prod"] = Field(default="dev")
+
+    @field_validator(
+        "anthropic_api_key", "langfuse_public_key", "langfuse_secret_key", mode="before"
+    )
+    @classmethod
+    def empty_str_to_none(cls, value: object) -> object:
+        # En .env, "ANTHROPIC_API_KEY=" significa "no configurada", no una key vacía.
+        if isinstance(value, str) and not value.strip():
+            return None
+        return value
 
 
 @lru_cache

@@ -18,3 +18,12 @@ def test_env_overrides(monkeypatch):
     assert settings.ollama_chat_model == "qwen2.5:3b"
     # La key nunca se imprime en logs/reprs.
     assert "sk-test" not in repr(settings)
+
+
+def test_empty_api_key_is_treated_as_missing(monkeypatch):
+    # Caso real: el .env trae "ANTHROPIC_API_KEY=" sin valor.
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "")
+    monkeypatch.setenv("LANGFUSE_SECRET_KEY", "  ")
+    settings = Settings(_env_file=None)
+    assert settings.anthropic_api_key is None
+    assert settings.langfuse_secret_key is None
