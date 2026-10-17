@@ -9,6 +9,7 @@ dependencies = [
     "uvicorn[standard]>=0.32",    # Servidor ASGI
     "jinja2>=3.1",                # Plantillas HTML renderizadas en el servidor
     "pydantic-settings>=2.6",     # Configuración tipada desde .env
+    "sqlmodel>=0.0.48",
 ]
 
 [dependency-groups]
