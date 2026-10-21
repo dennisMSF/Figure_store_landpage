@@ -17,7 +17,7 @@ class Settings(BaseSettings):
     )
 
     store_name: str = "Figure Store"
-    database_url: str = f"sqlite:///{PROJECT_ROOT / 'figure_store.db'}":
+    database_url: str = f"sqlite:///{PROJECT_ROOT / 'figure_store.db'}"
     environment: Literal["dev", "prod"] = "dev"
 
 

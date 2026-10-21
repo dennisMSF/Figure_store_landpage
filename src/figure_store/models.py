@@ -32,6 +32,7 @@ class Character(SQLModel, table=True):
     name: str
     series_id: int = Field(foreign_key="series.id", ondelete="RESTRICT")
 
+
 class Series(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
     name: str = Field(unique=True)
@@ -43,7 +44,7 @@ class Photo(SQLModel, table=True):
     photo_path: str
     position: int
     alt_text: str
-    figure_id: int = Field(unique=True, foreign_key="figure.id", ondelete="CASCADE")
+    figure_id: int = Field(foreign_key="figure.id", ondelete="CASCADE")
 
 
 class Type(SQLModel, table=True):
