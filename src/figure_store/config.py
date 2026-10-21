@@ -17,6 +17,7 @@ class Settings(BaseSettings):
     )
 
     store_name: str = "Figure Store"
+    database_url: str = "sqlite:///figure_store.db"
     environment: Literal["dev", "prod"] = "dev"
 
 
